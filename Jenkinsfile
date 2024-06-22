@@ -58,9 +58,9 @@ pipeline {
     }
     post {
         always {
-            dir("${env.WORKSPACE}") {
-                // 无论构建是否成功，始终清理工作区
-                cleanWs()
+            script {
+                // 手动删除工作区内容
+                sh 'rm -rf *'
             }
         }
     }
