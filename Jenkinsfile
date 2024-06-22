@@ -15,6 +15,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                    sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
+                    }
                     // 构建 Docker 镜像
                     sh "docker build -t tf00185077/jenkins ."
                 }
