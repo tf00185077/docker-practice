@@ -11,8 +11,7 @@ pipeline {
             steps {
                 script {
                     // 构建 Docker 镜像
-                    def imageName = "tf00185077/jenkins"
-                    sh "docker build -t ${imageName} ."
+                    sh "docker build -t tf00185077/jenkins ."
                 }
             }
         }
@@ -20,8 +19,7 @@ pipeline {
             steps {
                 script {
                     // 推送 Docker 镜像
-                    def imageName = "tf00185077/jenkins"
-                    sh "docker push ${imageName}"
+                    sh "docker push tf00185077/jenkins"
                 }
             }
         }
