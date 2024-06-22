@@ -19,9 +19,11 @@ pipeline {
     }
     stage('Docker Image') {
       steps {
-        sh 'docker -v'
-        sh 'docker build -t tf00185077/jenkins .'
-        sh 'docker push tf00185077/jenkins'
+        script{
+            sh 'docker -v'
+            sh 'docker build -t tf00185077/jenkins .'
+            sh 'docker push tf00185077/jenkins'
+        }
       }
     }
     
