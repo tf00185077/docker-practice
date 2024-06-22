@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  nuxt:
+    build:
+      context: ..
+      dockerfile: ./devDocker/Dockerfile
+    container_name: nuxt
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../pages:/usr/src/app/pages
+      - ../server:/usr/src/app/server
+      - ../static:/usr/src/app/static
+      - ../public:/usr/src/app/public
+    working_dir: /usr/src/app
+    command: npm run dev -- --host 0.0.0.0

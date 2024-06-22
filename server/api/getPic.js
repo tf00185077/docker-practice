@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
         const imageFiles = files.filter((file) =>
             /\.(jpg|jpeg|png|gif)$/i.test(file)
         );
-
+        console.log("ASDSD")
         const images = [];
         for (const file of imageFiles) {
             const filePath = resolve(folderPath, file);

@@ -1,4 +1,13 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
+  devtools: { enabled: true },
+  watchers: {
+    webpack: {
+      aggregateTimeout: 300,
+    },
+  },
+  nitro: {
+    devServer: {
+      watch: ['server', 'pages']
+    }
+  }
 })

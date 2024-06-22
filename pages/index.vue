@@ -1,7 +1,6 @@
 <script setup >
 const { data: imgList } = await useFetch("/api/getPic");
 const fileInput = ref(null);
-
 const uploadImage = async () => {
   if (fileInput.value?.files.length > 0) {
     const formData = new FormData();
@@ -26,7 +25,7 @@ const uploadImage = async () => {
 <template>
   <div>Index</div>
   <div>
-    <h1>Image Upload</h1>
+    <h1>Image Uploadeiaps</h1>
     <form @submit.prevent="uploadImage">
       <input type="file" ref="fileInput" accept="image/*" required />
       <button type="submit">Upload Image</button>
