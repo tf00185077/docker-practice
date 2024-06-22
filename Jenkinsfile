@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker { 
             image 'node:20.14.0-alpine3.20'
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // 确保挂载 Docker socket
         }
     }
 
