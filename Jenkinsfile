@@ -1,4 +1,7 @@
 pipeline {
+    agent {
+        docker { image 'node:20.14.0-alpine3.20' }
+    }
 
     environment {
         NODE_ENV = 'production'
