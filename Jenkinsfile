@@ -14,56 +14,50 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir("${env.WORKSPACE}") {
-                    // 安装依赖
-                    sh 'npm install'
-                    // 构建 Nuxt.js 项目
-                    sh 'npm run build'
-                }
+                // 安装依赖
+                sh 'npm install'
+                // 构建 Nuxt.js 项目
+                sh 'npm run build'
             }
         }
         stage('Test') {
             steps {
-                dir("${env.WORKSPACE}") {
-                    // 运行测试
-                    sh 'npm test'
-                }
+                // 运行测试
+                sh 'npm test'
             }
         }
         stage('Build Docker Image') {
             steps {
-                dir("${env.WORKSPACE}") {
-                    script {
-                        // 构建 Docker 镜像
-                        def imageName = "tf00185077/jenkins"
-                        sh "docker build -t ${imageName} ."
-                    }
+                script {
+                    // 构建 Docker 镜像
+                    def imageName = "tf00185077/jenkins"
+                    sh "docker build -t ${imageName} ."
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
-                dir("${env.WORKSPACE}") {
-                    script {
-                        // 登录 Docker Hub
-                        sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                script {
+                    // 登录 Docker Hub
+                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
 
-                        // 推送 Docker 镜像
-                        def imageName = "tf00185077/jenkins"
-                        sh "docker push ${imageName}"
-                    }
+                    // 推送 Docker 镜像
+                    def imageName = "tf00185077/jenkins"
+                    sh "docker push ${imageName}"
                 }
             }
         }
     }
     post {
         always {
-            script {
-                // 手动删除工作区内容
-                sh 'rm -rf *'
+            // 在一个新的 node 块中执行清理工作，确保有正确的上下文
+            node {
+                // 无论构建是否成功，始终清理工作区
+                cleanWs()
             }
         }
     }
 }
+
 // docker run -u root -d --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkins/jenkins:lts
 // docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
