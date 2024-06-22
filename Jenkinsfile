@@ -2,7 +2,7 @@ pipeline {
   
      agent {
         docker { 
-            image 'node:20.14.0-alpine3.20'
+            image 'chimon2000/docker-node'
         }
     }
   stages {
