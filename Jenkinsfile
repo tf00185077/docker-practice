@@ -17,22 +17,7 @@ pipeline {
         sh 'npm -v'
       }
     }
-    stage('Dependencies') {
-      steps {
-        sh 'npm install'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
     stage('Docker Image') {
-      agent {
-        docker {
-          image 'docker:dind'
-        }
-      }
       steps {
         sh 'docker -v'
         sh 'docker build -t tf00185077/jenkins .'
