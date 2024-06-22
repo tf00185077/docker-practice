@@ -6,6 +6,11 @@ pipeline {
         }
       }
 
+    environment {
+        NODE_ENV = 'production'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // 确保凭证 ID 正确
+    }
+
     stages {
         stage('Build Docker Image') {
             steps {
