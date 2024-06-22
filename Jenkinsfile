@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
           image 'docker:dind'
+          args '-v /var/run/docker.sock:/var/run/docker.sock' // 挂载 Docker socket 以访问 Docker 守护进程
         }
       }
 
