@@ -50,9 +50,8 @@ pipeline {
     }
     post {
         always {
-            // 使用 `agent any` 来确保在任何可用的节点上运行
-            agent any
-            steps {
+            // 在一个新的 node 块中执行清理工作，确保有正确的上下文
+            node {
                 // 无论构建是否成功，始终清理工作区
                 cleanWs()
             }
