@@ -24,7 +24,6 @@ pipeline {
             steps {
                 script {
                     // 推送 Docker 镜像
-                    sh "docker login -u=tf00185077 -p=Redgodkill0"
                     sh "docker push tf00185077/jenkins"
                 }
             }
