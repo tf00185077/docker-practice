@@ -1,10 +1,4 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts'
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // 挂载 Docker socket，以便在容器内使用 Docker
-        }
-    }
 
     environment {
         NODE_ENV = 'production'
@@ -55,3 +49,4 @@ pipeline {
         }
     }
 }
+// docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts
