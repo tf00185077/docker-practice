@@ -6,11 +6,6 @@ pipeline {
         }
     }
 
-    environment {
-        NODE_ENV = 'production'
-        DOCKERHUB_CREDENTIALS = credentials('tf00185077') // 在 Jenkins 中配置的 Docker Hub 凭证 ID
-    }
-
     stages {
         stage('Build Docker Image') {
             steps {
@@ -24,9 +19,6 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    // 登录 Docker Hub
-                    sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-
                     // 推送 Docker 镜像
                     def imageName = "tf00185077/jenkins"
                     sh "docker push ${imageName}"
