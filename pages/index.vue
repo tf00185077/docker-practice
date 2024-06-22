@@ -6,15 +6,13 @@ const uploadImage = async () => {
   if (fileInput.value?.files.length > 0) {
     const formData = new FormData();
     formData.append("image", fileInput.value.files[0]);
-    console.log(formData);
     try {
-      const response = await useFetch("/api/upload", {
+      const { data } = await useFetch("/api/upload", {
         method: "POST",
         body: formData,
       });
-
-      if (response._data.value.ok) {
-        alert("Image uploaded successfully!");
+      if (data.value === "File uploaded successfully.") {
+        alert(data.value);
       } else {
         throw new Error("Upload failed");
       }

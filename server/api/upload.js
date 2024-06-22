@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
     // 處理表單數據，提取文件
     const { files, fields } = await new Promise((resolve, reject) => {
-        form.parse(event.req, (err, fields, files) => {
+        form.parse(event.node.req, (err, fields, files) => {
             if (err) reject(err);
             resolve({ fields, files });
         });
@@ -28,22 +28,24 @@ export default defineEventHandler(async (event) => {
     try {
         await fs.mkdir(uploadsDir, { recursive: true });
         for (const file of Object.values(files)) {
-            const oldPath = file.filepath;
-            const newPath = join(uploadsDir, file.newFilename);
-            await fs.rename(oldPath, newPath);
+            if (Array.isArray(file)) {
+                for (const f of file) {
+                    const oldPath = f.filepath;
+                    const newFilename = f.newFilename || parse(f.filepath).base; // 使用默認文件名
+                    const newPath = join(uploadsDir, newFilename);
+                    await fs.rename(oldPath, newPath);
+                }
+            } else {
+                const oldPath = file.filepath;
+                const newFilename = file.newFilename || parse(file.filepath).base; // 使用默認文件名
+                const newPath = join(uploadsDir, newFilename);
+                await fs.rename(oldPath, newPath);
         }
-    } catch (error) {
+    } }catch (error) {
         console.error(error);
         return { error: "Failed to save files." };
     }
-
-    return {
-        message: "File uploaded successfully.",
-        files: Object.values(files).map((file) => ({
-            path: `/uploads/${file.newFilename}`,
-            name: file.originalFilename,
-            type: file.mimetype,
-            size: file.size,
-        })),
-    };
+    event.node.res.statusCode = 200;
+    return "File uploaded successfully."
+    
 });
